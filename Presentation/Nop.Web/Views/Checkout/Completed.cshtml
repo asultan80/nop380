@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="buttons">
-                <input type="button" value="@T("Checkout.ThankYou.Continue")" class="button-1 order-completed-continue-button" onclick="setLocation('@Url.RouteUrl("HomePage")')" />
+                <input type="button" value="@T("Checkout.ThankYou.Continue")" class="button-1 order-completed-continue-button" onclick="setLocation('@(string.IsNullOrEmpty(Model.VendorFromSesstion) ?  Url.RouteUrl("HomePage") : Url.RouteUrl("Vendor", new { SeName = Model.VendorFromSesstion }))')" />
             </div>
         </div>
         @Html.Widget("checkout_completed_bottom", Model.OrderId)

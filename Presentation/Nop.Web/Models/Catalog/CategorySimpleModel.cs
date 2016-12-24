@@ -16,6 +16,11 @@ namespace Nop.Web.Models.Catalog
 
         public int? NumberOfProducts { get; set; }
 
+        /// <summary>
+        /// Amount of products per category
+        /// </summary>
+        public int? ProductsCount { get; set; }
+
         public bool IncludeInTopMenu { get; set; }
 
         public List<CategorySimpleModel> SubCategories { get; set; }

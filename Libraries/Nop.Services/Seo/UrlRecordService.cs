@@ -236,6 +236,22 @@ namespace Nop.Services.Seo
         }
 
         /// <summary>
+        /// Find URL record by Entity Id
+        /// </summary>
+        /// <param name="id">Entity Id</param>
+        /// <returns>Found URL record</returns>
+        public virtual UrlRecord GetByVendorEntityId(int id)
+        {
+            var query = from ur in _urlRecordRepository.Table
+                        where ur.EntityId == id && ur.EntityName == "Vendor"
+                        //first, try to find an active record
+                        orderby ur.IsActive descending, ur.Id
+                        select ur;
+            var urlRecord = query.FirstOrDefault();
+            return urlRecord;
+        }
+
+        /// <summary>
         /// Find URL record (cached version).
         /// This method works absolutely the same way as "GetBySlug" one but caches the results.
         /// Hence, it's used only for performance optimization in public store
@@ -243,6 +259,44 @@ namespace Nop.Services.Seo
         /// <param name="slug">Slug</param>
         /// <returns>Found URL record</returns>
         public virtual UrlRecordForCaching GetBySlugCached(string slug)
+        {
+            if (String.IsNullOrEmpty(slug))
+                return null;
+
+            if (_localizationSettings.LoadAllUrlRecordsOnStartup)
+            {
+                //load all records (we know they are cached)
+                var source = GetAllUrlRecordsCached();
+                var query = from ur in source
+                            where ur.Slug.Equals(slug, StringComparison.InvariantCultureIgnoreCase)
+                            //first, try to find an active record
+                            orderby ur.IsActive descending, ur.Id
+                            select ur;
+                var urlRecordForCaching = query.FirstOrDefault();
+                return urlRecordForCaching;
+            }
+
+            //gradual loading
+            string key = string.Format(URLRECORD_BY_SLUG_KEY, slug);
+            return _cacheManager.Get(key, () =>
+            {
+                var urlRecord = GetBySlug(slug);
+                if (urlRecord == null)
+                    return null;
+
+                var urlRecordForCaching = Map(urlRecord);
+                return urlRecordForCaching;
+            });
+        }
+
+        /// <summary>
+        /// Find URL record (cached version).
+        /// This method works absolutely the same way as "GetBySlug" one but caches the results.
+        /// Hence, it's used only for performance optimization in public store
+        /// </summary>
+        /// <param name="slug">Slug</param>
+        /// <returns>Found URL record</returns>
+        public virtual UrlRecordForCaching GetBySlugCached(string store, string slug)
         {
             if (String.IsNullOrEmpty(slug))
                 return null;

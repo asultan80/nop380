@@ -310,17 +310,18 @@ namespace Nop.Services.Catalog
         /// <summary>
         /// Get number of product (published and visible) in certain category
         /// </summary>
+        /// <param name="vendorId">Vendor ID</param>
         /// <param name="categoryIds">Category identifiers</param>
         /// <param name="storeId">Store identifier; 0 to load all records</param>
         /// <returns>Number of products</returns>
-        public virtual int GetNumberOfProductsInCategory(IList<int> categoryIds = null, int storeId = 0)
+        public virtual int GetNumberOfProductsInCategory(int vendorId, IList<int> categoryIds = null, int storeId = 0)
         {
             //validate "categoryIds" parameter
             if (categoryIds != null && categoryIds.Contains(0))
                 categoryIds.Remove(0);
 
             var query = _productRepository.Table;
-            query = query.Where(p => !p.Deleted && p.Published && p.VisibleIndividually);
+            query = query.Where(p => !p.Deleted && p.Published && p.VisibleIndividually && p.VendorId == vendorId);
 
             //category filtering
             if (categoryIds != null && categoryIds.Any())

@@ -356,6 +356,9 @@
     <Compile Include="Domain\Catalog\TierPrice.cs" />
     <Compile Include="Domain\Customers\PasswordFormat.cs" />
     <Compile Include="NopVersion.cs" />
+    <Compile Include="SessionKeyNames.cs" />
+    <Compile Include="SessionWrapper.cs" />
+    <Compile Include="VendorLite.cs" />
     <Compile Include="WebHelper.cs" />
     <Compile Include="Domain\Customers\Customer.cs" />
     <Compile Include="Domain\Localization\Language.cs" />

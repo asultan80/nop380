@@ -3,6 +3,8 @@
 
 @helper RenderCategoryLine(CategorySimpleModel category, int level, bool responsiveMobileMenu)
 {
+    if (category.ProductsCount > 0)
+    {
     <li>
         <a href="@Url.RouteUrl("Category", new { SeName = category.SeName })">@category.Name
         @if (category.NumberOfProducts.HasValue)
@@ -35,6 +37,7 @@
             }
         }
     </li>
+    }
 }
 
 <ul class="top-menu">

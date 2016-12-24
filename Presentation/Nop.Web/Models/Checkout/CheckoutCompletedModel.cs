@@ -1,4 +1,5 @@
-﻿using Nop.Web.Framework.Mvc;
+﻿using Nop.Core;
+using Nop.Web.Framework.Mvc;
 
 namespace Nop.Web.Models.Checkout
 {
@@ -6,5 +7,13 @@ namespace Nop.Web.Models.Checkout
     {
         public int OrderId { get; set; }
         public bool OnePageCheckoutEnabled { get; set; }
+
+        public string VendorFromSesstion
+        {
+            get
+            {
+                return VendorLite.GetVendorNameFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR));
+            }
+        }
     }
 }

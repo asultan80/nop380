@@ -2141,6 +2141,7 @@ namespace Nop.Web.Controllers
                 .ToList();
             var model = new ShoppingCartModel();
             PrepareShoppingCartModel(model, cart);
+            //ViewBag.HideMenu = true;
             return View(model);
         }
 

@@ -3,6 +3,8 @@ using System.Web.Routing;
 using Nop.Core.Data;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Infrastructure;
+using Nop.Services.Seo;
+using System.Web.Mvc;
 
 namespace Nop.Web.Framework.Localization
 {
@@ -78,7 +80,7 @@ namespace Nop.Web.Framework.Localization
         /// An object that contains the values from the route definition.
         /// </returns>
         public override RouteData GetRouteData(HttpContextBase httpContext)
-        {
+        {            
             if (DataSettingsHelper.DatabaseIsInstalled() && this.SeoFriendlyUrlsForLanguagesEnabled)
             {
                 string virtualPath = httpContext.Request.AppRelativeCurrentExecutionFilePath;
@@ -102,6 +104,27 @@ namespace Nop.Web.Framework.Localization
                 }
             }
             RouteData data = base.GetRouteData(httpContext);
+
+            // fix two-params routes
+            if (data != null 
+                && ((data.Values.ContainsKey("vendor_name") && data.Values.ContainsKey("generic_se_name")) || (data.Values.ContainsKey("VendorName") && data.Values.ContainsKey("SeName"))))
+            {
+                // fix ajax request
+                if (new HttpRequestWrapper(HttpContext.Current.Request).IsAjaxRequest())
+                    return null;
+                // fix not ajax request 
+                var store = data.Values["vendor_name"] as string;
+                var slug = data.Values["generic_se_name"] as string;
+                var urlRecordService = EngineContext.Current.Resolve<IUrlRecordService>();
+                var urlRecordVendor = urlRecordService.GetBySlugCached(store);
+                var urlRecord = urlRecordService.GetBySlugCached(slug);
+                if (urlRecordVendor == null && urlRecord == null)
+                {
+                    return null;
+                }
+
+            }
+
             return data;
         }
 

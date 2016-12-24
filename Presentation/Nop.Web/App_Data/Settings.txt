@@ -1,0 +1,2 @@
+DataProvider: sqlserver
+DataConnectionString: Data Source=DIMAWS\SQLEXPRESS;Initial Catalog=EazyBuy;Integrated Security=True;Persist Security Info=False

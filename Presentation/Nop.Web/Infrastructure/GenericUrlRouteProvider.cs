@@ -15,16 +15,32 @@ namespace Nop.Web.Infrastructure
                                        new {controller = "Common", action = "GenericUrl"},
                                        new[] {"Nop.Web.Controllers"});
 
-            //define this routes to use in UI views (in case if you want to customize some of them later)
+            routes.MapGenericPathRoute("GenericVendorUrl",
+                                       "{vendor_name}/{generic_se_name}",
+                                       new { controller = "Common", action = "GenericUrl" },
+                                       new[] { "Nop.Web.Controllers" });
+
             routes.MapLocalizedRoute("Product",
-                                     "{SeName}",
+                                     "{VendorName}/{SeName}",
                                      new { controller = "Product", action = "ProductDetails" },
-                                     new[] {"Nop.Web.Controllers"});
+                                     new[] { "Nop.Web.Controllers" });
 
             routes.MapLocalizedRoute("Category",
-                            "{SeName}",
+                            "{VendorName}/{SeName}",
                             new { controller = "Catalog", action = "Category" },
                             new[] { "Nop.Web.Controllers" });
+
+
+            //define this routes to use in UI views (in case if you want to customize some of them later)
+            //routes.MapLocalizedRoute("Product",
+            //                         "{SeName}",
+            //                         new { controller = "Product", action = "ProductDetails" },
+            //                         new[] { "Nop.Web.Controllers" });
+
+            //routes.MapLocalizedRoute("Category",
+            //                "{SeName}",
+            //                new { controller = "Catalog", action = "Category" },
+            //                new[] { "Nop.Web.Controllers" });
 
             routes.MapLocalizedRoute("Manufacturer",
                             "{SeName}",

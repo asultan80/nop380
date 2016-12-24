@@ -70,6 +70,7 @@ namespace Nop.Web.Controllers
         private readonly BlogSettings _blogSettings;
         private readonly ForumSettings _forumSettings;
         private readonly ICacheManager _cacheManager;
+        private readonly ICustomerService _customerService;
 
         #endregion
 
@@ -106,7 +107,8 @@ namespace Nop.Web.Controllers
             VendorSettings vendorSettings,
             BlogSettings blogSettings,
             ForumSettings  forumSettings,
-            ICacheManager cacheManager)
+            ICacheManager cacheManager,
+            ICustomerService customerService)
         {
             this._categoryService = categoryService;
             this._manufacturerService = manufacturerService;
@@ -140,6 +142,7 @@ namespace Nop.Web.Controllers
             this._blogSettings = blogSettings;
             this._forumSettings = forumSettings;
             this._cacheManager = cacheManager;
+            this._customerService = customerService;
         }
 
         #endregion
@@ -369,7 +372,7 @@ namespace Nop.Web.Controllers
                 {
                     string cacheKey = string.Format(ModelCacheEventConsumer.CATEGORY_NUMBER_OF_PRODUCTS_MODEL_KEY,
                         string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
-                        _storeContext.CurrentStore.Id, 
+                        CurrentVendorId, 
                         category.Id);
                     categoryModel.NumberOfProducts = _cacheManager.Get(cacheKey, () =>
                     {
@@ -378,9 +381,23 @@ namespace Nop.Web.Controllers
                         //include subcategories
                         if (_catalogSettings.ShowCategoryProductNumberIncludingSubcategories)
                             categoryIds.AddRange(GetChildCategoryIds(category.Id));
-                        return _productService.GetNumberOfProductsInCategory(categoryIds, _storeContext.CurrentStore.Id);
+                        return _productService.GetNumberOfProductsInCategory(VendorLite.GetVendorIdFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR)), categoryIds, _storeContext.CurrentStore.Id);
                     });
                 }
+
+                // set products count per category including sub-categories                
+                string cacheKeyForProductsCount = string.Format(ModelCacheEventConsumer.CATEGORY_PRODUCTS_NUMBER_MODEL_KEY,
+                        string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
+                        CurrentVendorId,
+                        category.Id);
+                categoryModel.ProductsCount = _cacheManager.Get(cacheKeyForProductsCount, () =>
+                {
+                    var categoryIds = new List<int>();
+                    categoryIds.Add(category.Id);
+                    //include subcategories
+                    categoryIds.AddRange(GetChildCategoryIds(category.Id));
+                    return _productService.GetNumberOfProductsInCategory(CurrentVendorId, categoryIds, _storeContext.CurrentStore.Id);
+                });
 
                 if (loadSubCategories)
                 {
@@ -415,7 +432,7 @@ namespace Nop.Web.Controllers
         #region Categories
         
         [NopHttpsRequirement(SslRequirement.No)]
-        public ActionResult Category(int categoryId, CatalogPagingFilteringModel command)
+        public ActionResult Category(int vendorId, int categoryId, CatalogPagingFilteringModel command)
         {
             var category = _categoryService.GetCategoryById(categoryId);
             if (category == null || category.Deleted)
@@ -433,7 +450,9 @@ namespace Nop.Web.Controllers
             //Store mapping
             if (!_storeMappingService.Authorize(category))
                 return InvokeHttp404();
-            
+
+            SessionWrapper.SetObject(SessionKeyNames.CURRENT_VENDOR, new VendorLite { Id = vendorId, Name = RouteData.Values["VendorName"].ToString() });
+
             //'Continue shopping' URL
             _genericAttributeService.SaveAttribute(_workContext.CurrentCustomer, 
                 SystemCustomerAttributeNames.LastContinueShoppingPage, 
@@ -556,7 +575,8 @@ namespace Nop.Web.Controllers
                        categoryIds: new List<int> { category.Id },
                        storeId: _storeContext.CurrentStore.Id,
                        visibleIndividuallyOnly: true,
-                       featuredProducts: true);
+                       featuredProducts: true,
+                       vendorId: vendorId);
                     hasFeaturedProductsCache = featuredProducts.TotalCount > 0;
                     _cacheManager.Set(cacheKey, hasFeaturedProductsCache, 60);
                 }
@@ -568,7 +588,8 @@ namespace Nop.Web.Controllers
                        categoryIds: new List<int> { category.Id },
                        storeId: _storeContext.CurrentStore.Id,
                        visibleIndividuallyOnly: true,
-                       featuredProducts: true);
+                       featuredProducts: true,
+                       vendorId: vendorId);
                 }
                 if (featuredProducts != null)
                 {
@@ -598,7 +619,8 @@ namespace Nop.Web.Controllers
                 filteredSpecs: alreadyFilteredSpecOptionIds,
                 orderBy: (ProductSortingEnum)command.OrderBy,
                 pageIndex: command.PageNumber - 1,
-                pageSize: command.PageSize);
+                pageSize: command.PageSize,
+                vendorId: vendorId);
             model.Products = PrepareProductOverviewModels(products).ToList();
 
             model.PagingFilteringContext.LoadPagedList(products);
@@ -654,8 +676,8 @@ namespace Nop.Web.Controllers
 
             string cacheKey = string.Format(ModelCacheEventConsumer.CATEGORY_NAVIGATION_MODEL_KEY, 
                 _workContext.WorkingLanguage.Id,
-                string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()), 
-                _storeContext.CurrentStore.Id);
+                string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
+                CurrentVendorId);
             var cachedModel = _cacheManager.Get(cacheKey, () => PrepareCategorySimpleModels(0).ToList());
 
             var model = new CategoryNavigationModel
@@ -673,8 +695,8 @@ namespace Nop.Web.Controllers
             //categories
             string categoryCacheKey = string.Format(ModelCacheEventConsumer.CATEGORY_MENU_MODEL_KEY,
                 _workContext.WorkingLanguage.Id,
-                string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()), 
-                _storeContext.CurrentStore.Id);
+                string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
+                CurrentVendorId);
             var cachedCategoriesModel = _cacheManager.Get(categoryCacheKey, () => PrepareCategorySimpleModels(0));
 
             //top menu topics
@@ -977,6 +999,8 @@ namespace Nop.Web.Controllers
             if (!vendor.Active)
                 return InvokeHttp404();
 
+            SessionWrapper.SetObject(SessionKeyNames.CURRENT_VENDOR, new VendorLite { Id = vendorId, Name = RouteData.Values["VendorName"].ToString() });
+
             //'Continue shopping' URL
             _genericAttributeService.SaveAttribute(_workContext.CurrentCustomer,
                 SystemCustomerAttributeNames.LastContinueShoppingPage,
@@ -992,7 +1016,8 @@ namespace Nop.Web.Controllers
                 MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
                 MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
                 SeName = vendor.GetSeName(),
-                AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors
+                AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors,
+                VendorManager = _customerService.GetAllCustomers().FirstOrDefault(c => c.VendorId == vendor.Id)
             };
 
 
@@ -1031,8 +1056,8 @@ namespace Nop.Web.Controllers
         public ActionResult VendorAll()
         {
             //we don't allow viewing of vendors if "vendors" block is hidden
-            if (_vendorSettings.VendorsBlockItemsToDisplay == 0)
-                return RedirectToRoute("HomePage");
+            //if (_vendorSettings.VendorsBlockItemsToDisplay == 0)
+            //    return RedirectToRoute("HomePage");
 
             var model = new List<VendorModel>();
             var vendors = _vendorService.GetAllVendors();
@@ -1047,7 +1072,8 @@ namespace Nop.Web.Controllers
                     MetaDescription = vendor.GetLocalized(x => x.MetaDescription),
                     MetaTitle = vendor.GetLocalized(x => x.MetaTitle),
                     SeName = vendor.GetSeName(),
-                    AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors
+                    AllowCustomersToContactVendors = _vendorSettings.AllowCustomersToContactVendors,
+                    VendorManager = _customerService.GetAllCustomers().FirstOrDefault(c => c.VendorId == vendor.Id)
                 };
                 //prepare picture model
                 int pictureSize = _mediaSettings.VendorThumbPictureSize;
@@ -1490,5 +1516,13 @@ namespace Nop.Web.Controllers
         }
 
         #endregion
+
+        private int CurrentVendorId
+        {
+            get
+            {
+                return VendorLite.GetVendorIdFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR));
+            }
+        }
     }
 }
