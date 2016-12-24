@@ -89,12 +89,7 @@ namespace Nop.Web.Framework.Seo
                 var urlRecord = urlRecordService.GetBySlugCached(slug);
                 //comment the line above and uncomment the line below in order to disable this performance "workaround"
                 //var urlRecord = urlRecordService.GetBySlug(slug);
-
-                if (urlRecordVendor == null && urlRecord == null)
-                {
-                    return null;
-                }
-
+                
                 if (urlRecord == null)
                 {
                     //no URL record found

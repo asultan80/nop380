@@ -1501,14 +1501,15 @@ namespace Nop.Web.Controllers
                 keywords: term,
                 languageId: _workContext.WorkingLanguage.Id,
                 visibleIndividuallyOnly: true,
-                pageSize: productNumber);
+                pageSize: productNumber,
+                vendorId: CurrentVendorId);
 
             var models =  PrepareProductOverviewModels(products, false, _catalogSettings.ShowProductImagesInSearchAutoComplete, _mediaSettings.AutoCompleteSearchThumbPictureSize).ToList();
             var result = (from p in models
                           select new
                           {
                               label = p.Name,
-                              producturl = Url.RouteUrl("Product", new { SeName = p.SeName }),
+                              producturl = Url.RouteUrl("Product", new { VendorName = CurrentVendorName, SeName = p.SeName }),
                               productpictureurl = p.DefaultPictureModel.ImageUrl
                           })
                           .ToList();
@@ -1522,6 +1523,14 @@ namespace Nop.Web.Controllers
             get
             {
                 return VendorLite.GetVendorIdFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR));
+            }
+        }
+
+        private string CurrentVendorName
+        {
+            get
+            {
+                return VendorLite.GetVendorNameFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR));
             }
         }
     }
