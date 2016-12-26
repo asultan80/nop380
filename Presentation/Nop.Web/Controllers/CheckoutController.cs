@@ -1462,7 +1462,6 @@ namespace Nop.Web.Controllers
                 ShippingRequired = cart.RequiresShipping(),
                 DisableBillingAddressCheckoutStep = _orderSettings.DisableBillingAddressCheckoutStep
             };
-            ViewBag.HideMenu = true;
             return View(model);
         }
 

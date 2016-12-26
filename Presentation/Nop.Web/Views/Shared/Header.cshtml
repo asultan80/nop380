@@ -16,8 +16,11 @@
         <div class="header-logo">
             @Html.Action("Logo", "Common")
         </div>
+        @if (Convert.ToBoolean(ViewBag.ShowSearch))
+        {
         <div class="search-box store-search-box">
             @Html.Action("SearchBox", "Catalog")
         </div>
+        }
     </div>
 </div>

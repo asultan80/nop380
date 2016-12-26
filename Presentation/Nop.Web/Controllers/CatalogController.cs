@@ -452,6 +452,7 @@ namespace Nop.Web.Controllers
                 return InvokeHttp404();
 
             SessionWrapper.SetObject(SessionKeyNames.CURRENT_VENDOR, new VendorLite { Id = vendorId, Name = RouteData.Values["VendorName"].ToString() });
+            ViewBag.ShowSearch = true;
 
             //'Continue shopping' URL
             _genericAttributeService.SaveAttribute(_workContext.CurrentCustomer, 
@@ -1000,6 +1001,7 @@ namespace Nop.Web.Controllers
                 return InvokeHttp404();
 
             SessionWrapper.SetObject(SessionKeyNames.CURRENT_VENDOR, new VendorLite { Id = vendorId, Name = RouteData.Values["VendorName"].ToString() });
+            ViewBag.ShowSearch = true;
 
             //'Continue shopping' URL
             _genericAttributeService.SaveAttribute(_workContext.CurrentCustomer,
@@ -1248,6 +1250,9 @@ namespace Nop.Web.Controllers
         [ValidateInput(false)]
         public ActionResult Search(SearchModel model, CatalogPagingFilteringModel command)
         {
+            if (CurrentVendorId < 0)
+                return RedirectToRoute("HomePage");
+
             //'Continue shopping' URL
             _genericAttributeService.SaveAttribute(_workContext.CurrentCustomer,
                 SystemCustomerAttributeNames.LastContinueShoppingPage,
@@ -1376,7 +1381,7 @@ namespace Nop.Web.Controllers
                     decimal? minPriceConverted = null;
                     decimal? maxPriceConverted = null;
                     bool searchInDescriptions = false;
-                    int vendorId = 0;
+                    int vendorId = CurrentVendorId;
                     if (model.adv)
                     {
                         //advanced search
@@ -1408,8 +1413,8 @@ namespace Nop.Web.Controllers
                                 maxPriceConverted = _currencyService.ConvertToPrimaryStoreCurrency(maxPrice, _workContext.WorkingCurrency);
                         }
 
-                        if (model.asv)
-                            vendorId = model.vid;
+                        //if (model.asv)
+                        //    vendorId = model.vid;
 
                         searchInDescriptions = model.sid;
                     }

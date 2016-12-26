@@ -17,6 +17,7 @@
         Html.AddCanonicalUrlParts(vendorUrl);
     }
 }
+@using Nop.Core;
 @using Nop.Core.Domain.Seo;
 @using Nop.Core.Infrastructure;
 @using Nop.Web.Models.Catalog;
@@ -27,11 +28,11 @@
     <div class="page-body">
         @Html.Widget("vendordetails_top", Model.Id)
         @*description*@
-        @if (!String.IsNullOrWhiteSpace(Model.Description))
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
         {
             <div class="vendor-description">
                 @Html.Raw(Model.Description) <br />
-                Phone Number : @Html.Raw(Model.PhoneNumber) <br />
+                Phone Number: <a href="tel:@Html.Raw(Model.PhoneNumber)" class="phone-number">@Html.Raw(HelpUtils.FormatPhoneNumber(Model.PhoneNumber))</a><br />
                 Address: @Html.Raw(Model.Address)
             </div>
         }

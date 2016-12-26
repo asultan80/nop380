@@ -947,6 +947,7 @@ namespace Nop.Web.Controllers
                 return InvokeHttp404();
 
             SessionWrapper.SetObject(SessionKeyNames.CURRENT_VENDOR, new VendorLite { Id = vendorId, Name = RouteData.Values["VendorName"].ToString() });
+            ViewBag.ShowSearch = true;
 
             //published?
             if (!_catalogSettings.AllowViewUnpublishedProductPage)
