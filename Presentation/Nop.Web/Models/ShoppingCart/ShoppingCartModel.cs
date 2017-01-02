@@ -2,6 +2,8 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using Nop.Core.Domain.Catalog;
+using Nop.Core.Infrastructure;
+using Nop.Services.Seo;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Models.Common;
 using Nop.Web.Models.Media;
@@ -24,6 +26,8 @@ namespace Nop.Web.Models.ShoppingCart
             ButtonPaymentMethodControllerNames = new List<string>();
             ButtonPaymentMethodRouteValues = new List<RouteValueDictionary>();
         }
+
+        
 
         public bool OnePageCheckoutEnabled { get; set; }
 
@@ -53,6 +57,8 @@ namespace Nop.Web.Models.ShoppingCart
 
         public partial class ShoppingCartItemModel : BaseNopEntityModel
         {
+            private readonly IUrlRecordService UrlRecordService = EngineContext.Current.Resolve<IUrlRecordService>();
+
             public ShoppingCartItemModel()
             {
                 Picture = new PictureModel();
@@ -87,6 +93,16 @@ namespace Nop.Web.Models.ShoppingCart
             public bool AllowItemEditing { get; set; }
 
             public IList<string> Warnings { get; set; }
+
+            public int VendorId { get; set; }
+
+            public string VendorUrlName
+            {
+                get
+                {
+                    return UrlRecordService.GetByVendorEntityId(VendorId).Slug;
+                }
+            }
 
         }
 
