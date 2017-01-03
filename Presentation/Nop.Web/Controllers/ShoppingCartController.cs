@@ -704,6 +704,7 @@ namespace Nop.Web.Controllers
                     ProductSeName = sci.Product.GetSeName(),
                     Quantity = sci.Quantity,
                     AttributeInfo = _productAttributeFormatter.FormatAttributes(sci.Product, sci.AttributesXml),
+                    VendorId = sci.Product.VendorId
                 };
 
                 //allow editing?
@@ -882,7 +883,8 @@ namespace Nop.Web.Controllers
                             ProductName = sci.Product.GetLocalized(x => x.Name),
                             ProductSeName = sci.Product.GetSeName(),
                             Quantity = sci.Quantity,
-                            AttributeInfo = _productAttributeFormatter.FormatAttributes(sci.Product, sci.AttributesXml)
+                            AttributeInfo = _productAttributeFormatter.FormatAttributes(sci.Product, sci.AttributesXml),
+                            VendorId = sci.Product.VendorId
                         };
 
                         //unit prices
