@@ -47,8 +47,10 @@ namespace Nop.Web.Models.Catalog
                 addressParts.Add(address.Address2);
                 addressParts.Add(address.City);
                 addressParts.Add(address.ZipPostalCode);
-                addressParts.Add(address.StateProvince.Name);
-                addressParts.Add(address.Country.Name);
+                if (address.StateProvince != null)
+                    addressParts.Add(address.StateProvince.Name);
+                if (address.Country != null)
+                    addressParts.Add(address.Country.Name);
 
                 return string.Join(", ", addressParts.Where(a => !string.IsNullOrEmpty(a)));
             }

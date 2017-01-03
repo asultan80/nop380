@@ -1,0 +1,2 @@
+DataProvider: sqlserver
+DataConnectionString: Data Source=sql5032.smarterasp.net;Initial Catalog=DB_A14D56_eazybuydb;Integrated Security=False;Persist Security Info=False;User ID=DB_A14D56_eazybuydb_admin;Password=!QAZ1qaz
