@@ -240,3 +240,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Presentation/Nop.Web/Content/Images/Thumbs
+/Presentation/Nop.Web/Plugins
+/Presentation/Nop.Web/Properties/PublishProfiles/PROD.pubxml
