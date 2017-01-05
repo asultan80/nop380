@@ -243,3 +243,4 @@ ModelManifest.xml
 /Presentation/Nop.Web/Content/Images/Thumbs
 /Presentation/Nop.Web/Plugins
 /Presentation/Nop.Web/Properties/PublishProfiles/PROD.pubxml
+*.pubxml

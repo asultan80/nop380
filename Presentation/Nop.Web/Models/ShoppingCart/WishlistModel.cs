@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Models.Media;
+using Nop.Services.Seo;
+using Nop.Core.Infrastructure;
 
 namespace Nop.Web.Models.ShoppingCart
 {
@@ -37,6 +39,8 @@ namespace Nop.Web.Models.ShoppingCart
 
         public partial class ShoppingCartItemModel : BaseNopEntityModel
         {
+            private readonly IUrlRecordService urlRecordService = EngineContext.Current.Resolve<IUrlRecordService>();
+
             public ShoppingCartItemModel()
             {
                 Picture = new PictureModel();
@@ -71,6 +75,16 @@ namespace Nop.Web.Models.ShoppingCart
             public bool AllowItemEditing { get; set; }
 
             public IList<string> Warnings { get; set; }
+
+            public int VendorId { get; set; }
+
+            public string VendorUrlName
+            {
+                get
+                {
+                    return urlRecordService.GetByVendorEntityId(VendorId).Slug;
+                }
+            }
 
         }
 

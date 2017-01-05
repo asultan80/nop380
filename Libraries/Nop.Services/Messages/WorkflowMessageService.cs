@@ -16,6 +16,7 @@ using Nop.Services.Customers;
 using Nop.Services.Events;
 using Nop.Services.Localization;
 using Nop.Services.Stores;
+using Nop.Services.Common;
 
 namespace Nop.Services.Messages
 {
@@ -33,6 +34,7 @@ namespace Nop.Services.Messages
         private readonly IStoreContext _storeContext;
         private readonly EmailAccountSettings _emailAccountSettings;
         private readonly IEventPublisher _eventPublisher;
+        private readonly ICustomerService _customerService;
 
         #endregion
 
@@ -47,7 +49,8 @@ namespace Nop.Services.Messages
             IStoreService storeService,
             IStoreContext storeContext,
             EmailAccountSettings emailAccountSettings,
-            IEventPublisher eventPublisher)
+            IEventPublisher eventPublisher,
+            ICustomerService customerService)
         {
             this._messageTemplateService = messageTemplateService;
             this._queuedEmailService = queuedEmailService;
@@ -59,6 +62,7 @@ namespace Nop.Services.Messages
             this._storeContext = storeContext;
             this._emailAccountSettings = emailAccountSettings;
             this._eventPublisher = eventPublisher;
+            this._customerService = customerService;
         }
 
         #endregion
@@ -69,7 +73,7 @@ namespace Nop.Services.Messages
             EmailAccount emailAccount, int languageId, IEnumerable<Token> tokens,
             string toEmailAddress, string toName,
             string attachmentFilePath = null, string attachmentFileName = null,
-            string replyToEmailAddress = null, string replyToName = null)
+            string replyToEmailAddress = null, string replyToName = null, string cc = "", bool plainText = false)
         {
             if (messageTemplate == null)
                 throw new ArgumentNullException("messageTemplate");
@@ -84,6 +88,10 @@ namespace Nop.Services.Messages
             //Replace subject and body tokens 
             var subjectReplaced = _tokenizer.Replace(subject, tokens, false);
             var bodyReplaced = _tokenizer.Replace(body, tokens, true);
+            if (plainText)
+            {
+                bodyReplaced = bodyReplaced.Replace("<p>", "").Replace("</p>", "");
+            }
 
             //limit name length
             toName = CommonHelper.EnsureMaximumLength(toName, 300);
@@ -97,7 +105,7 @@ namespace Nop.Services.Messages
                 ToName = toName,
                 ReplyTo = replyToEmailAddress,
                 ReplyToName = replyToName,
-                CC = string.Empty,
+                CC = cc,
                 Bcc = bcc,
                 Subject = subjectReplaced,
                 Body = bodyReplaced,
@@ -359,9 +367,68 @@ namespace Nop.Services.Messages
 
             var toEmail = vendor.Email;
             var toName = vendor.Name;
+
             return SendNotification(messageTemplate, emailAccount,
                 languageId, tokens,
                 toEmail, toName);
+        }
+
+        /// <summary>
+        /// Sends an order placed notification to a vendor
+        /// </summary>
+        /// <param name="order">Order instance</param>
+        /// <param name="vendor">Vendor instance</param>
+        /// <param name="languageId">Message language identifier</param>
+        /// <returns>Queued email identifier</returns>
+        public virtual int SendOrderPlacedVendorSmsNotification(Order order, Vendor vendor, int languageId)
+        {
+            if (order == null)
+                throw new ArgumentNullException("order");
+
+            if (vendor == null)
+                throw new ArgumentNullException("vendor");
+
+            var store = _storeService.GetStoreById(order.StoreId) ?? _storeContext.CurrentStore;
+            languageId = EnsureLanguageIsActive(languageId, store.Id);
+
+            var messageTemplate = GetActiveMessageTemplate("OrderPlaced.VendorSmsNotification", store.Id);
+            if (messageTemplate == null)
+                return 0;
+
+            //email account
+            var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
+
+            //tokens
+            var tokens = new List<Token>();
+            _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
+            _messageTokenProvider.AddOrderTokens(tokens, order, languageId, vendor.Id);
+
+            //event notification
+            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+
+            var toName = vendor.Name;
+            var toEmail = GetVendorPhoneEmail(vendor);
+
+            if (string.IsNullOrEmpty(toEmail))
+                return 0;
+
+            return SendNotification(messageTemplate, emailAccount,
+                languageId, tokens,
+                toEmail, toName, plainText: true);
+        }
+
+        private string GetVendorPhoneEmail(Vendor vendor)
+        {
+            var vendorManager = _customerService.GetAllCustomers().FirstOrDefault(c => c.VendorId == vendor.Id);
+            if (vendorManager == null || string.IsNullOrEmpty(vendorManager.AdminComment))
+                return string.Empty;
+           
+            var phone = vendorManager.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+
+            if (string.IsNullOrEmpty(phone))
+                return string.Empty;
+
+            return string.Format("{0}@{1}", phone, vendorManager.AdminComment);
         }
 
         /// <summary>
