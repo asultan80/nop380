@@ -745,13 +745,26 @@ namespace Nop.Services.Orders
 
             var vendors = GetVendorsInOrder(order);
             foreach (var vendor in vendors)
-            {
+            {                
                 var orderPlacedVendorNotificationQueuedEmailId = _workflowMessageService.SendOrderPlacedVendorNotification(order, vendor, order.CustomerLanguageId);
                 if (orderPlacedVendorNotificationQueuedEmailId > 0)
                 {
                     order.OrderNotes.Add(new OrderNote
                     {
                         Note = string.Format("\"Order placed\" email (to vendor) has been queued. Queued email identifier: {0}.", orderPlacedVendorNotificationQueuedEmailId),
+                        DisplayToCustomer = false,
+                        CreatedOnUtc = DateTime.UtcNow
+                    });
+                    _orderService.UpdateOrder(order);
+                }
+
+                // send SMS through email
+                var orderPlacedVendorSmsNotificationQueuedEmailId = _workflowMessageService.SendOrderPlacedVendorSmsNotification(order, vendor, order.CustomerLanguageId);
+                if (orderPlacedVendorSmsNotificationQueuedEmailId > 0)
+                {
+                    order.OrderNotes.Add(new OrderNote
+                    {
+                        Note = string.Format("\"Order placed\" SMS email (to vendor) has been queued. Queued email identifier: {0}.", orderPlacedVendorSmsNotificationQueuedEmailId),
                         DisplayToCustomer = false,
                         CreatedOnUtc = DateTime.UtcNow
                     });

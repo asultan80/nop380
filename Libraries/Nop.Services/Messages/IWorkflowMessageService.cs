@@ -61,6 +61,15 @@ namespace Nop.Services.Messages
         int SendOrderPlacedVendorNotification(Order order, Vendor vendor, int languageId);
 
         /// <summary>
+        /// Sends an order placed sms notification to a vendor
+        /// </summary>
+        /// <param name="order">Order instance</param>
+        /// <param name="vendor">Vendor instance</param>
+        /// <param name="languageId">Message language identifier</param>
+        /// <returns>Queued email identifier</returns>
+        int SendOrderPlacedVendorSmsNotification(Order order, Vendor vendor, int languageId);
+
+        /// <summary>
         /// Sends an order placed notification to a store owner
         /// </summary>
         /// <param name="order">Order instance</param>

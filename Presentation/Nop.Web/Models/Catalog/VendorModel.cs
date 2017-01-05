@@ -2,6 +2,8 @@
 using Nop.Web.Framework.Mvc;
 using Nop.Web.Models.Media;
 using System.Linq;
+using Nop.Core.Domain.Customers;
+using Nop.Services.Common;
 
 namespace Nop.Web.Models.Catalog
 {
@@ -63,12 +65,7 @@ namespace Nop.Web.Models.Catalog
                 if (VendorManager == null)
                     return string.Empty;
 
-                if (VendorManager.Addresses.Count == 0)
-                    return string.Empty;
-
-                var address = VendorManager.Addresses.First();
-
-                return address.PhoneNumber;
+                return VendorManager.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
             }
         }
     }
