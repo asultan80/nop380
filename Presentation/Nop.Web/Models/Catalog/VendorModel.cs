@@ -65,7 +65,12 @@ namespace Nop.Web.Models.Catalog
                 if (VendorManager == null)
                     return string.Empty;
 
-                return VendorManager.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+                if (VendorManager.Addresses.Count == 0)
+                    return string.Empty;
+
+                var address = VendorManager.Addresses.First();
+
+                return address.PhoneNumber;
             }
         }
     }

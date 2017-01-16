@@ -422,8 +422,12 @@ namespace Nop.Services.Messages
             var vendorManager = _customerService.GetAllCustomers().FirstOrDefault(c => c.VendorId == vendor.Id);
             if (vendorManager == null || string.IsNullOrEmpty(vendorManager.AdminComment))
                 return string.Empty;
-           
-            var phone = vendorManager.GetAttribute<string>(SystemCustomerAttributeNames.Phone);
+
+            if (vendorManager.Addresses.Count == 0)
+                return string.Empty;
+
+            var address = vendorManager.Addresses.First();
+            var phone = address.PhoneNumber;
 
             if (string.IsNullOrEmpty(phone))
                 return string.Empty;
