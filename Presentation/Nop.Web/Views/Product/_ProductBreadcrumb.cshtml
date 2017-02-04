@@ -12,7 +12,7 @@
             @Html.Widget("productbreadcrumb_before", Model.ProductId)
             <li>
                 <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-                    <a href="@Url.RouteUrl("HomePage")" itemprop="url">
+                    <a href="@Url.RouteUrl("Vendor", new { SeName = Model.CurrentVendorName })" itemprop="url">
                         <span itemprop="title">@T("Products.Breadcrumb.Top")</span>
                     </a>
                 </span>
