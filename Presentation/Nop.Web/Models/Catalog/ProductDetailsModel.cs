@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Nop.Core;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Orders;
 using Nop.Web.Framework;
@@ -119,6 +120,14 @@ namespace Nop.Web.Models.Catalog
             public string ProductName { get; set; }
             public string ProductSeName { get; set; }
             public IList<CategorySimpleModel> CategoryBreadcrumb { get; set; }
+
+            public string CurrentVendorName
+            {
+                get
+                {
+                    return VendorLite.GetVendorNameFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR));
+                }
+            }
         }
 
         public partial class AddToCartModel : BaseNopModel
