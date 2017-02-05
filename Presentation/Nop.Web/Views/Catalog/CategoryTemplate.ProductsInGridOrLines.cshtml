@@ -124,10 +124,10 @@
                 @Html.Partial("_FilterPriceBox", Model.PagingFilteringContext.PriceRangeFilter, new ViewDataDictionary())
             }
             @*filtering*@
-            @if (Model.PagingFilteringContext.SpecificationFilter.Enabled)
+            @*@if (Model.PagingFilteringContext.SpecificationFilter.Enabled)
             {
                 @Html.Partial("_FilterSpecsBox", Model.PagingFilteringContext.SpecificationFilter, new ViewDataDictionary())
-            }
+            }*@
         </div>
         @Html.Widget("categorydetails_before_product_list", Model.Id)
 

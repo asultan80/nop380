@@ -488,6 +488,8 @@
     <Content Include="Content\Custom.css" />
     <Content Include="Content\files\ExportImport\Index.htm" />
     <Content Include="Content\files\Index.htm" />
+    <Content Include="Themes\DefaultClean\Content\fonts\fonts.css" />
+    <Content Include="Themes\DefaultClean\Content\fonts\icomoon.svg" />
     <Content Include="Content\Images\default-image.png" />
     <Content Include="Content\jquery-ui-themes\smoothness\images\animated-overlay.gif" />
     <Content Include="Content\jquery-ui-themes\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -598,6 +600,9 @@
     <Content Include="Content\samples\product_IfYouWait_1.zip" />
     <Content Include="Content\samples\product_NightVision_1.zip" />
     <Content Include="Content\samples\product_ScienceAndFaith_1.zip" />
+    <Content Include="Themes\DefaultClean\Content\fonts\icomoon.eot" />
+    <Content Include="Themes\DefaultClean\Content\fonts\icomoon.ttf" />
+    <Content Include="Themes\DefaultClean\Content\fonts\icomoon.woff" />
     <None Include="Properties\PublishProfiles\PROD.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\fineuploader\iframe.xss.response-4.2.2.js" />

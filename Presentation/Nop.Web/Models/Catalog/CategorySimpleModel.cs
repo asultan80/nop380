@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Nop.Web.Framework.Mvc;
+using Nop.Web.Models.Media;
 
 namespace Nop.Web.Models.Catalog
 {
@@ -24,5 +25,7 @@ namespace Nop.Web.Models.Catalog
         public bool IncludeInTopMenu { get; set; }
 
         public List<CategorySimpleModel> SubCategories { get; set; }
+
+        public PictureModel Picture { get; set; }
     }
 }

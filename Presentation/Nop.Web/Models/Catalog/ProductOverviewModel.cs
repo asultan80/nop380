@@ -48,6 +48,8 @@ namespace Nop.Web.Models.Catalog
             }
         }
 
+        public bool IsInWishList { get; set; }
+
         #region Nested Classes
 
         public partial class ProductPriceModel : BaseNopModel

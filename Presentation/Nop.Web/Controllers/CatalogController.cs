@@ -359,12 +359,23 @@ namespace Nop.Web.Controllers
             var categories = allCategories.Where(c => c.ParentCategoryId == rootCategoryId).ToList();
             foreach (var category in categories)
             {
+                var picture = _pictureService.GetPictureById(category.PictureId);
+                var pictureModel = new PictureModel
+                {
+                    FullSizeImageUrl = _pictureService.GetPictureUrl(picture),
+                    ImageUrl = _pictureService.GetPictureUrl(picture),
+                    Title = string.Format(_localizationService.GetResource("Media.Category.ImageLinkTitleFormat"), category.Name),
+                    AlternateText = string.Format(_localizationService.GetResource("Media.Category.ImageAlternateTextFormat"), category.Name)
+                };
+
+
                 var categoryModel = new CategorySimpleModel
                 {
                     Id = category.Id,
                     Name = category.GetLocalized(x => x.Name),
                     SeName = category.GetSeName(),
-                    IncludeInTopMenu = category.IncludeInTopMenu
+                    IncludeInTopMenu = category.IncludeInTopMenu,
+                    Picture = pictureModel
                 };
 
                 //nubmer of products in each category

@@ -9,8 +9,9 @@ var AjaxCart = {
     topcartselector: '',
     topwishlistselector: '',
     flyoutcartselector: '',
+    wishButton: null,
 
-    init: function (usepopupnotifications, topcartselector, topwishlistselector, flyoutcartselector) {
+    init: function(usepopupnotifications, topcartselector, topwishlistselector, flyoutcartselector) {
         this.loadWaiting = false;
         this.usepopupnotifications = usepopupnotifications;
         this.topcartselector = topcartselector;
@@ -18,17 +19,24 @@ var AjaxCart = {
         this.flyoutcartselector = flyoutcartselector;
     },
 
-    setLoadWaiting: function (display) {
+    setLoadWaiting: function(display) {
         displayAjaxLoading(display);
         this.loadWaiting = display;
     },
 
     //add a product to the cart/wishlist from the catalog pages
-    addproducttocart_catalog: function (urladd) {
+    
+    addproducttocart_catalog: function (urladd, btn) {
         if (this.loadWaiting != false) {
             return;
         }
         this.setLoadWaiting(true);
+
+        if (typeof btn == "undefined" || btn == null) {
+            AjaxCart.wishButton = null;
+        } else {
+            AjaxCart.wishButton = $(btn);
+        }
 
         $.ajax({
             cache: false,
@@ -80,6 +88,10 @@ var AjaxCart = {
             $(AjaxCart.topcartselector).html(response.updatetopcartsectionhtml);
         }
         if (response.updatetopwishlistsectionhtml) {
+            if (AjaxCart.wishButton != null && typeof AjaxCart.wishButton != "undefined") {
+                AjaxCart.wishButton.addClass("selected");
+                AjaxCart.wishButton = null;
+            }
             $(AjaxCart.topwishlistselector).html(response.updatetopwishlistsectionhtml);
         }
         if (response.updateflyoutcartsectionhtml) {

@@ -750,6 +750,7 @@ namespace Nop.Web.Controllers
                 if (_commonSettings.SitemapIncludeProducts)
                 {
                     //limit product to 200 until paging is supported on this page
+                    var customer = _workContext.CurrentCustomer;
                     var products = _productService.SearchProducts(storeId: _storeContext.CurrentStore.Id,
                         visibleIndividuallyOnly: true,
                         pageSize: 200);
@@ -760,7 +761,12 @@ namespace Nop.Web.Controllers
                         ShortDescription = product.GetLocalized(x => x.ShortDescription),
                         FullDescription = product.GetLocalized(x => x.FullDescription),
                         SeName = product.GetSeName(),
-                        VendorId = product.VendorId
+                        VendorId = product.VendorId,
+                        IsInWishList = customer.ShoppingCartItems
+                            .Where(sci => sci.ShoppingCartType == ShoppingCartType.Wishlist)
+                            .LimitPerStore(_storeContext.CurrentStore.Id)
+                            .ToList()
+                            .IsProductInWishlist(product.Id)
                     }).ToList();
                 }
 

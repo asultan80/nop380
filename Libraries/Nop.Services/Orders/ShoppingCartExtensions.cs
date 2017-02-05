@@ -41,6 +41,11 @@ namespace Nop.Services.Orders
             return result;
         }
 
+        public static bool IsProductInWishlist(this IList<ShoppingCartItem> shoppingCart, int productId)
+        {
+            return shoppingCart.Any(sci => sci.ProductId == productId);
+        }
+
         /// <summary>
         /// Gets a value indicating whether shopping cart is recurring
         /// </summary>

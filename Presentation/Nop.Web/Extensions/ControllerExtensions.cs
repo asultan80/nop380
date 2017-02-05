@@ -8,10 +8,12 @@ using Nop.Core;
 using Nop.Core.Caching;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Media;
+using Nop.Core.Domain.Orders;
 using Nop.Services.Catalog;
 using Nop.Services.Directory;
 using Nop.Services.Localization;
 using Nop.Services.Media;
+using Nop.Services.Orders;
 using Nop.Services.Security;
 using Nop.Services.Seo;
 using Nop.Services.Tax;
@@ -96,6 +98,7 @@ namespace Nop.Web.Extensions
             var models = new List<ProductOverviewModel>();
             foreach (var product in products)
             {
+                var customer = workContext.CurrentCustomer;
                 var model = new ProductOverviewModel
                 {
                     Id = product.Id,
@@ -105,9 +108,16 @@ namespace Nop.Web.Extensions
                     SeName = product.GetSeName(),
                     ProductType = product.ProductType,
                     MarkAsNew = product.MarkAsNew &&
-                        (!product.MarkAsNewStartDateTimeUtc.HasValue || product.MarkAsNewStartDateTimeUtc.Value < DateTime.UtcNow) &&
-                        (!product.MarkAsNewEndDateTimeUtc.HasValue || product.MarkAsNewEndDateTimeUtc.Value > DateTime.UtcNow),
-                    VendorId = product.VendorId
+                                (!product.MarkAsNewStartDateTimeUtc.HasValue ||
+                                 product.MarkAsNewStartDateTimeUtc.Value < DateTime.UtcNow) &&
+                                (!product.MarkAsNewEndDateTimeUtc.HasValue ||
+                                 product.MarkAsNewEndDateTimeUtc.Value > DateTime.UtcNow),
+                    VendorId = product.VendorId,
+                    IsInWishList = customer.ShoppingCartItems
+                        .Where(sci => sci.ShoppingCartType == ShoppingCartType.Wishlist)
+                        .LimitPerStore(storeContext.CurrentStore.Id)
+                        .ToList()
+                        .IsProductInWishlist(product.Id)
                 };
                 //price
                 if (preparePriceModel)
