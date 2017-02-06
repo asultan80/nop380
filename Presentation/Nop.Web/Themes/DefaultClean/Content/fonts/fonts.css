@@ -1,4 +1,32 @@
 ﻿@font-face {
+    font-family: 'MyriadPro';
+    src: url('MyriadProRegular.eot?#iefix') format('embedded-opentype'),
+         url('MyriadProRegular.woff') format('woff'),
+         url('MyriadProRegular.ttf') format('truetype'),
+		 url('MyriadProRegular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'MyriadPro-Bold';
+    src: url('MyriadPro-Bold.eot?#iefix') format('embedded-opentype'),
+         url('MyriadPro-Bold.woff') format('woff'),
+         url('MyriadPro-Bold.ttf') format('truetype'),
+		 url('MyriadPro-Bold.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Zhizn';
+    src: url('Zhizn.eot?#iefix') format('embedded-opentype'),
+         url('Zhizn.woff') format('woff'),
+         url('Zhizn.ttf') format('truetype'),
+		 url('Zhizn.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
   font-family: 'icomoon';
   src:  url('icomoon.eot?gbelm8');
   src:  url('icomoon.eot?gbelm8#iefix') format('embedded-opentype'),
