@@ -31,17 +31,9 @@
                 </a>
             </li>
         }
-        @if (Model.ShoppingCartEnabled)
-        {
-            <li id="topcartlink">
-                <a href="@Url.RouteUrl("ShoppingCart")" class="ico-cart">
-                    <span class="cart-label">@T("ShoppingCart")</span>
-                    <span class="cart-qty">@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)</span>
-                </a>
-            </li>
-        }
         @Html.Widget("header_links_after")
     </ul>
+
     @if (Model.AllowPrivateMessages && !string.IsNullOrEmpty(Model.AlertMessage))
     {
         //new private message notification
@@ -50,6 +42,16 @@
                 displayPopupNotification('@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.AlertMessage))', 'success', false);
             });
         </script>
+    }
+    @if (Model.ShoppingCartEnabled)
+    {
+        <div id="topcartlink">
+            <a href="@Url.RouteUrl("ShoppingCart")" class="ico-cart">
+                <span class="cart-label">@T("ShoppingCart")</span>
+                <span class="cart-img"></span>
+                <span class="cart-qty">@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)</span>
+            </a>
+        </div>
     }
     @if (Model.ShoppingCartEnabled)
     {

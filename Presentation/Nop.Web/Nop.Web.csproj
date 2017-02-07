@@ -624,10 +624,18 @@
     <Content Include="Themes\DefaultClean\Content\css\ie8.css" />
     <Content Include="Themes\DefaultClean\Content\css\styles.css" />
     <Content Include="Themes\DefaultClean\Content\css\styles.rtl.css" />
+    <Content Include="Themes\DefaultClean\Content\fonts\MyriadPro-Bold.svg" />
+    <Content Include="Themes\DefaultClean\Content\fonts\MyriadProRegular.svg" />
+    <Content Include="Themes\DefaultClean\Content\fonts\Zhizn.svg" />
     <Content Include="Themes\DefaultClean\Content\images\ajax-loader-small.gif" />
     <Content Include="Themes\DefaultClean\Content\images\back-button.png" />
     <Content Include="Themes\DefaultClean\Content\images\calendar-next.png" />
     <Content Include="Themes\DefaultClean\Content\images\calendar-prev.png" />
+    <Content Include="Themes\DefaultClean\Content\images\car.png" />
+    <Content Include="Themes\DefaultClean\Content\images\cat_a.png" />
+    <Content Include="Themes\DefaultClean\Content\images\cat_b.png" />
+    <Content Include="Themes\DefaultClean\Content\images\cat_c.png" />
+    <Content Include="Themes\DefaultClean\Content\images\cat_d.png" />
     <Content Include="Themes\DefaultClean\Content\images\close.png" />
     <Content Include="Themes\DefaultClean\Content\images\compare-button.png" />
     <Content Include="Themes\DefaultClean\Content\images\details.png" />
@@ -636,8 +644,14 @@
     <Content Include="Themes\DefaultClean\Content\images\edit.png" />
     <Content Include="Themes\DefaultClean\Content\images\edit_.png" />
     <Content Include="Themes\DefaultClean\Content\images\email-button.png" />
+    <Content Include="Themes\DefaultClean\Content\images\facebook.png" />
     <Content Include="Themes\DefaultClean\Content\images\first.png" />
+    <Content Include="Themes\DefaultClean\Content\images\girl.jpg" />
+    <Content Include="Themes\DefaultClean\Content\images\google.png" />
+    <Content Include="Themes\DefaultClean\Content\images\head.png" />
+    <Content Include="Themes\DefaultClean\Content\images\heart.png" />
     <Content Include="Themes\DefaultClean\Content\images\ie_warning.jpg" />
+    <Content Include="Themes\DefaultClean\Content\images\instagram.png" />
     <Content Include="Themes\DefaultClean\Content\images\last.png" />
     <Content Include="Themes\DefaultClean\Content\images\loading.gif" />
     <Content Include="Themes\DefaultClean\Content\images\logo.png" />
@@ -664,6 +678,7 @@
     <Content Include="Themes\DefaultClean\Content\images\topic-type1.png" />
     <Content Include="Themes\DefaultClean\Content\images\topic-type2.png" />
     <Content Include="Themes\DefaultClean\Content\images\topic-type3.png" />
+    <Content Include="Themes\DefaultClean\Content\images\twitter.png" />
     <Content Include="Themes\DefaultClean\Content\images\view-grid.png" />
     <Content Include="Themes\DefaultClean\Content\images\view-list.png" />
     <Content Include="Themes\DefaultClean\Content\images\vote-down.png" />
@@ -671,6 +686,7 @@
     <Content Include="Themes\DefaultClean\Content\images\vote-up.png" />
     <Content Include="Themes\DefaultClean\Content\images\vote-up-selected.png" />
     <Content Include="Themes\DefaultClean\Content\images\watch.png" />
+    <Content Include="Themes\DefaultClean\Content\images\wish.png" />
     <Content Include="Themes\DefaultClean\Content\images\wishlist-button.png" />
     <Content Include="Themes\DefaultClean\preview.jpg" />
     <Content Include="Content\Images\default-avatar.jpg" />
@@ -1000,6 +1016,18 @@
     <Content Include="Views\Product\CustomerProductReviews.cshtml" />
     <Content Include="Views\Vendor\Info.cshtml" />
     <Content Include="Views\Common\Logo.cshtml" />
+    <Content Include="Themes\DefaultClean\Content\fonts\MyriadPro-Bold.eot" />
+    <Content Include="Themes\DefaultClean\Content\fonts\MyriadPro-Bold.otf" />
+    <Content Include="Themes\DefaultClean\Content\fonts\MyriadPro-Bold.ttf" />
+    <Content Include="Themes\DefaultClean\Content\fonts\MyriadPro-Bold.woff" />
+    <Content Include="Themes\DefaultClean\Content\fonts\MyriadProRegular.eot" />
+    <Content Include="Themes\DefaultClean\Content\fonts\MyriadProRegular.otf" />
+    <Content Include="Themes\DefaultClean\Content\fonts\MyriadProRegular.ttf" />
+    <Content Include="Themes\DefaultClean\Content\fonts\MyriadProRegular.woff" />
+    <Content Include="Themes\DefaultClean\Content\fonts\Zhizn.eot" />
+    <Content Include="Themes\DefaultClean\Content\fonts\Zhizn.otf" />
+    <Content Include="Themes\DefaultClean\Content\fonts\Zhizn.ttf" />
+    <Content Include="Themes\DefaultClean\Content\fonts\Zhizn.woff" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
