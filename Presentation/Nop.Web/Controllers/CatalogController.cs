@@ -383,7 +383,7 @@ namespace Nop.Web.Controllers
                 {
                     string cacheKey = string.Format(ModelCacheEventConsumer.CATEGORY_NUMBER_OF_PRODUCTS_MODEL_KEY,
                         string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
-                        CurrentVendorId, 
+                        HelpUtils.CurrentVendorId, 
                         category.Id);
                     categoryModel.NumberOfProducts = _cacheManager.Get(cacheKey, () =>
                     {
@@ -399,7 +399,7 @@ namespace Nop.Web.Controllers
                 // set products count per category including sub-categories                
                 string cacheKeyForProductsCount = string.Format(ModelCacheEventConsumer.CATEGORY_PRODUCTS_NUMBER_MODEL_KEY,
                         string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
-                        CurrentVendorId,
+                        HelpUtils.CurrentVendorId,
                         category.Id);
                 categoryModel.ProductsCount = _cacheManager.Get(cacheKeyForProductsCount, () =>
                 {
@@ -407,7 +407,7 @@ namespace Nop.Web.Controllers
                     categoryIds.Add(category.Id);
                     //include subcategories
                     categoryIds.AddRange(GetChildCategoryIds(category.Id));
-                    return _productService.GetNumberOfProductsInCategory(CurrentVendorId, categoryIds, _storeContext.CurrentStore.Id);
+                    return _productService.GetNumberOfProductsInCategory(HelpUtils.CurrentVendorId, categoryIds, _storeContext.CurrentStore.Id);
                 });
 
                 if (loadSubCategories)
@@ -689,7 +689,7 @@ namespace Nop.Web.Controllers
             string cacheKey = string.Format(ModelCacheEventConsumer.CATEGORY_NAVIGATION_MODEL_KEY, 
                 _workContext.WorkingLanguage.Id,
                 string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
-                CurrentVendorId);
+                HelpUtils.CurrentVendorId);
             var cachedModel = _cacheManager.Get(cacheKey, () => PrepareCategorySimpleModels(0).ToList());
 
             var model = new CategoryNavigationModel
@@ -708,7 +708,7 @@ namespace Nop.Web.Controllers
             string categoryCacheKey = string.Format(ModelCacheEventConsumer.CATEGORY_MENU_MODEL_KEY,
                 _workContext.WorkingLanguage.Id,
                 string.Join(",", _workContext.CurrentCustomer.GetCustomerRoleIds()),
-                CurrentVendorId);
+                HelpUtils.CurrentVendorId);
             var cachedCategoriesModel = _cacheManager.Get(categoryCacheKey, () => PrepareCategorySimpleModels(0));
 
             //top menu topics
@@ -1261,7 +1261,7 @@ namespace Nop.Web.Controllers
         [ValidateInput(false)]
         public ActionResult Search(SearchModel model, CatalogPagingFilteringModel command)
         {
-            if (CurrentVendorId < 0)
+            if (HelpUtils.CurrentVendorId < 0)
                 return RedirectToRoute("HomePage");
 
             //'Continue shopping' URL
@@ -1392,7 +1392,7 @@ namespace Nop.Web.Controllers
                     decimal? minPriceConverted = null;
                     decimal? maxPriceConverted = null;
                     bool searchInDescriptions = false;
-                    int vendorId = CurrentVendorId;
+                    int vendorId = HelpUtils.CurrentVendorId;
                     if (model.adv)
                     {
                         //advanced search
@@ -1518,36 +1518,20 @@ namespace Nop.Web.Controllers
                 languageId: _workContext.WorkingLanguage.Id,
                 visibleIndividuallyOnly: true,
                 pageSize: productNumber,
-                vendorId: CurrentVendorId);
+                vendorId: HelpUtils.CurrentVendorId);
 
             var models =  PrepareProductOverviewModels(products, false, _catalogSettings.ShowProductImagesInSearchAutoComplete, _mediaSettings.AutoCompleteSearchThumbPictureSize).ToList();
             var result = (from p in models
                           select new
                           {
                               label = p.Name,
-                              producturl = Url.RouteUrl("Product", new { VendorName = CurrentVendorName, SeName = p.SeName }),
+                              producturl = Url.RouteUrl("Product", new { VendorName = HelpUtils.CurrentVendorName, SeName = p.SeName }),
                               productpictureurl = p.DefaultPictureModel.ImageUrl
                           })
                           .ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        #endregion
-
-        private int CurrentVendorId
-        {
-            get
-            {
-                return VendorLite.GetVendorIdFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR));
-            }
-        }
-
-        private string CurrentVendorName
-        {
-            get
-            {
-                return VendorLite.GetVendorNameFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR));
-            }
-        }
+        #endregion        
     }
 }
