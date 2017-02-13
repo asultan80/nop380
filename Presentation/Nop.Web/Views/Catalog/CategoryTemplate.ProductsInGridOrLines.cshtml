@@ -128,7 +128,7 @@
             {
                 @Html.Partial("_FilterSpecsBox", Model.PagingFilteringContext.SpecificationFilter, new ViewDataDictionary())
             }*@
-        </div>
+    </div>
         @Html.Widget("categorydetails_before_product_list", Model.Id)
 
         @if (Model.Products.Count > 0)
@@ -156,3 +156,5 @@
         @Html.Widget("categorydetails_bottom", Model.Id)
     </div>
 </div>
+
+@Html.Action("VendorsSlider", "Common")

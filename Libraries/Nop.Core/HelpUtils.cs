@@ -21,5 +21,21 @@ namespace Nop.Core
                 return s;
             }
         }
+
+        public static int CurrentVendorId
+        {
+            get
+            {
+                return VendorLite.GetVendorIdFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR));
+            }
+        }
+
+        public static string CurrentVendorName
+        {
+            get
+            {
+                return VendorLite.GetVendorNameFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR));
+            }
+        }
     }
 }
