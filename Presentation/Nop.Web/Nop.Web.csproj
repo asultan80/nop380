@@ -334,6 +334,7 @@
     <Compile Include="Models\Checkout\OnePageCheckoutModel.cs" />
     <Compile Include="Models\Checkout\UpdateSectionJsonModel.cs" />
     <Compile Include="Models\Common\AddressModel.cs" />
+    <Compile Include="Models\Common\HeaderModel.cs" />
     <Compile Include="Models\Common\AdminHeaderLinksModel.cs" />
     <Compile Include="Models\Common\AddressAttributeModel.cs" />
     <Compile Include="Models\Common\ContactVendorModel.cs" />
@@ -489,6 +490,7 @@
     <Content Include="Content\Custom.css" />
     <Content Include="Content\files\ExportImport\Index.htm" />
     <Content Include="Content\files\Index.htm" />
+    <Content Include="Scripts\slick.min.js" />
     <Content Include="Themes\DefaultClean\Content\fonts\fonts.css" />
     <Content Include="Themes\DefaultClean\Content\fonts\icomoon.svg" />
     <Content Include="Content\Images\default-image.png" />

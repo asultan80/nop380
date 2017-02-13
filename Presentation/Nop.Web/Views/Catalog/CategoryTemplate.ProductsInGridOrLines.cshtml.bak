@@ -50,16 +50,11 @@
                     </li>
                 }
             </ul>
-            <div class="breadcrumb-line"></div>
         </div>
         @Html.Widget("categorydetails_after_breadcrumb", Model.Id)
     }
 }
 <div class="page category-page">
-    @if (Model.Products.Count > 0)
-    {
-        @Html.Partial("_CatalogSelectors", Model.PagingFilteringContext, new ViewDataDictionary())
-    }
     <div class="page-title">
         <h1>@Model.Name</h1>
     </div>
@@ -117,6 +112,10 @@
             </div>
         }
         @Html.Widget("categorydetails_after_featured_products", Model.Id)
+        @if (Model.Products.Count > 0)
+        {
+            @Html.Partial("_CatalogSelectors", Model.PagingFilteringContext, new ViewDataDictionary())
+        }
         @Html.Widget("categorydetails_before_filters", Model.Id)
         <div class="product-filters">
             @*filtering*@
@@ -129,7 +128,7 @@
             {
                 @Html.Partial("_FilterSpecsBox", Model.PagingFilteringContext.SpecificationFilter, new ViewDataDictionary())
             }*@
-        </div>
+    </div>
         @Html.Widget("categorydetails_before_product_list", Model.Id)
 
         @if (Model.Products.Count > 0)
@@ -157,5 +156,5 @@
         @Html.Widget("categorydetails_bottom", Model.Id)
     </div>
 </div>
-@Html.Action("RecentlyViewedProductsBlock", "Product", new { productThumbPictureSize = 64 })
+
 @Html.Action("VendorsSlider", "Common")

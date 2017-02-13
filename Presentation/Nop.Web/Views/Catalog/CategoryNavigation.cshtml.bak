@@ -35,7 +35,7 @@
     {
     <li class="@liClass">
         <a href="@Url.RouteUrl("Category", new {VendorName = VendorLite.GetVendorNameFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR)), SeName = category.SeName})">
-            <span class="category-icon-width"><img src="@category.Picture.ImageUrl" class="category-icon" /></span>
+            <img src="@category.Picture.ImageUrl" class="category-icon"/>
             <span class="category-link-text">@category.Name</span>            
             @if (category.NumberOfProducts.HasValue)
             {

@@ -1,8 +1,7 @@
-﻿@model Nop.Web.Models.Common.HeaderModel
-<div class="header">
+﻿<div class="header">
     @Html.Widget("header")
     <div class="header-upper">
-        <div class="slogan"></div>
+        <div class="slogan">simplify your life</div>
         <div class="header-selectors-wrapper">
             @Html.Action("TaxTypeSelector", "Common")
             @Html.Action("CurrencySelector", "Common")
@@ -15,7 +14,6 @@
         </div>
     </div>
     <div class="header-lower">
-        <div class="logo-vendor"><img src="@Model.VendorLogoUrl" /></div>
         <div class="header-logo">
             @Html.Action("Logo", "Common")
         </div>

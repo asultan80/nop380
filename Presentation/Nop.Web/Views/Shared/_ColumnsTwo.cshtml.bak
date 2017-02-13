@@ -34,7 +34,6 @@
         @RenderSection("Breadcrumb")
     } 
 }
-<div class="master-column-width">
 <div class="side-2">
     @if (IsSectionDefined("left"))
     {
@@ -47,7 +46,7 @@
         @Html.Widget("left_side_column_after_category_navigation")
         @Html.Action("ManufacturerNavigation", "Catalog", new { currentManufacturerId = currentManufacturerId })
         @Html.Action("VendorNavigation", "Catalog")
-        @*@Html.Action("RecentlyViewedProductsBlock", "Product", new { productThumbPictureSize = 64 })*@
+        @Html.Action("RecentlyViewedProductsBlock", "Product", new { productThumbPictureSize = 64 })
         @Html.Action("PopularProductTags", "Catalog")
         @Html.Action("PollBlock", "Poll", new { systemKeyword = "LeftColumnPoll" })
         @Html.Widget("left_side_column_after")
@@ -57,5 +56,4 @@
     @Html.Widget("main_column_before")
     @RenderBody()
     @Html.Widget("main_column_after")
-</div>
 </div>

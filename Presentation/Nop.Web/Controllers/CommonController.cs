@@ -469,6 +469,20 @@ namespace Nop.Web.Controllers
             return PartialView(model);
         }
 
+        [ChildActionOnly]
+        public ActionResult Header()
+        {
+            string vendorLogoUrl = string.Empty;
+            var vendor = _vendorService.GetVendorById(HelpUtils.CurrentVendorId);
+            if (vendor != null)
+            {
+                var picture = _pictureService.GetPictureById(vendor.PictureId);
+                vendorLogoUrl = _pictureService.GetPictureUrl(picture, _mediaSettings.VendorThumbPictureSize);
+            }
+
+            return PartialView(new HeaderModel { VendorLogoUrl = vendorLogoUrl });
+        }
+
 
         //social
         [ChildActionOnly]
