@@ -2,7 +2,7 @@
 @using Nop.Web.Models.Catalog;
 
 <div class="product-selectors">
-    @*view mode*@
+    @*view mode disable
     @if (Model.AllowProductViewModeChanging)
     {
         <div class="product-viewmode">
@@ -16,7 +16,7 @@
                 <a class="viewmode-icon list @if (listMode.Selected){<text>selected</text>}" href="@listMode.Value" title="@listMode.Text">@listMode.Text</a>
             }
         </div>
-    }
+    }*@
     @*sorting*@
     @if (Model.AllowProductSorting)
     {
@@ -34,4 +34,5 @@
             <span>@T("Catalog.PageSize.PerPage")</span>
         </div>
     }
+    <div class="product-selectors-line"></div>
 </div>
