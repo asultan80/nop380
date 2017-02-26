@@ -35,7 +35,6 @@
                 @Html.Widget("productbreadcrumb_after", Model.ProductId)
             </li>
         </ul>
-        <div class="breadcrumb-line"></div>
     </div>
 
 }
