@@ -1,6 +1,6 @@
 ﻿@model VendorModel
 @{
-    Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
+    @*Layout = "~/Views/Shared/_ColumnsTwo.cshtml";*@
 
     //title
     Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
@@ -17,33 +17,79 @@
         Html.AddCanonicalUrlParts(vendorUrl);
     }
 }
+@{
+    //current category ID
+    int currentCategoryId = 0;
+    if (Url.RequestContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.RequestContext.RouteData.Values["action"].ToString().Equals("category", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentCategoryId = Convert.ToInt32(Url.RequestContext.RouteData.Values["categoryId"].ToString());
+    }
+
+
+    //current manufacturer ID
+    int currentManufacturerId = 0;
+    if (Url.RequestContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.RequestContext.RouteData.Values["action"].ToString().Equals("manufacturer", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentManufacturerId = Convert.ToInt32(Url.RequestContext.RouteData.Values["manufacturerId"].ToString());
+    }
+
+
+    //current product ID
+    int currentProductId = 0;
+    if (Url.RequestContext.RouteData.Values["controller"].ToString().Equals("product", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.RequestContext.RouteData.Values["action"].ToString().Equals("productdetails", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentProductId = Convert.ToInt32(Url.RequestContext.RouteData.Values["productId"].ToString());
+    }
+}
 @using Nop.Core;
 @using Nop.Core.Domain.Seo;
 @using Nop.Core.Infrastructure;
 @using Nop.Web.Models.Catalog;
 <div class="page vendor-page">
-    <div class="page-title">
+    @*<div class="page-title">
         <h1>@Model.Name</h1>
-    </div>
+    </div>*@
     <div class="page-body">
         @Html.Widget("vendordetails_top", Model.Id)
         @*description*@
         @if (!string.IsNullOrWhiteSpace(Model.Description))
         {
             <div class="vendor-description">
-                @Html.Raw(Model.Description) <br />
-                Phone Number: <a href="tel:@Html.Raw(Model.PhoneNumber)" class="phone-number">@Html.Raw(HelpUtils.FormatPhoneNumber(Model.PhoneNumber))</a><br />
-                Address: @Html.Raw(Model.Address)
+                <div class="vendor-desc-pic"><img src="http://localhost:15536/Themes/DefaultClean/Content/images/picture-vendor-info.png" /></div>
+                <div class="vendor-desc">
+                <div class="vendor-box-line"></div>
+                @Html.Raw(Model.Description)
+                <div class="vendor-box-line pr"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="vendor-icon">
+                @Html.Action("CategoryNavigation", "Catalog", new { currentCategoryId = currentCategoryId, currentProductId = currentProductId })
+                </div>
+                <div class="logo-vendor-page">
+                    <div class="vendor-thanks">
+                        Thank you,<br />
+                        @Model.Name
+                    </div>
+                    <div class="vendor-contact">
+                        Phone Number: <a href="tel:@Html.Raw(Model.PhoneNumber)" class="phone-number">@Html.Raw(HelpUtils.FormatPhoneNumber(Model.PhoneNumber))</a><br />
+                        Address: @Html.Raw(Model.Address)
+                    </div>
+                </div>
+                <div class="vendor-line"></div>
             </div>
         }
-        @*contact vendor*@
-        @if (Model.AllowCustomersToContactVendors)
-        {
-            <div class="contact-vendor">
-                <input type="button" value="@T("ContactVendor")" class="button-2 contact-vendor-button" onclick="setLocation('@Url.RouteUrl("ContactVendor", new { vendorId = Model.Id })')" />
-            </div>
-        }
-       
-        @Html.Widget("vendordetails_bottom", Model.Id)
+        @*contact vendor
+    @if (Model.AllowCustomersToContactVendors)
+    {
+        <div class="contact-vendor">
+            <input type="button" value="@T("ContactVendor")" class="button-2 contact-vendor-button" onclick="setLocation('@Url.RouteUrl("ContactVendor", new { vendorId = Model.Id })')" />
+        </div>
+    }
+
+    @Html.Widget("vendordetails_bottom", Model.Id)*@
     </div>
 </div>
+@Html.Action("VendorsSlider", "Common")

@@ -22,30 +22,11 @@
 </div>
 
 <script type="text/javascript" src="/Scripts/slick.min.js"></script>
-@{
-    var controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
-    var actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
-    if (controllerName == "Customer" && actionName == "Register")
-    {
-    <script type="text/javascript">
-        $('.vendorslider').slick({
-        slidesToShow: 6,
-        slidesToScroll: 1,
-        autoplay: false,
-        vertical: true,
-        autoplaySpeed: 3000
-        });
-    </script>
-    }
-    else
-    {
-    <script type="text/javascript">
+<script type="text/javascript">
     $('.vendorslider').slick({
         slidesToShow: 6,
         slidesToScroll: 1,
         autoplay: false,
         autoplaySpeed: 3000
     });
-    </script>
-    }
-}
+</script>
