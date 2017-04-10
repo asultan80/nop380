@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Orders;
+using Nop.Services.Customers;
 
 namespace Nop.Services.Orders
 {
@@ -50,9 +52,10 @@ namespace Nop.Services.Orders
         /// <param name="shippingRate">Shipping rate to adjust</param>
         /// <param name="cart">Cart</param>
         /// <param name="appliedDiscounts">Applied discounts</param>
+        /// <param name="address">Applied discounts</param>
         /// <returns>Adjusted shipping rate</returns>
         decimal AdjustShippingRate(decimal shippingRate,
-            IList<ShoppingCartItem> cart, out List<Discount> appliedDiscounts);
+            IList<ShoppingCartItem> cart, out List<Discount> appliedDiscounts, Address address = null);
         
         /// <summary>
         /// Gets shopping cart additional shipping charge
@@ -197,5 +200,7 @@ namespace Nop.Services.Orders
         /// <param name="amount">Amount (in primary store currency)</param>
         /// <returns>umber of reward points</returns>
         int CalculateRewardPoints(Customer customer, decimal amount);
+
+        decimal AdjustShippingRateByDestination(IList<ShoppingCartItem> cart, decimal rate, Address address = null);
     }
 }

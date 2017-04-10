@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="header-lower">
-        <div class="logo-vendor"><img src="@Model.VendorLogoUrl" /></div>
+        <div class="logo-vendor"><img src="@Model.VendorLogoUrl" /><div class="vendor-title">Title</div></div>
         <div class="header-logo">
             @Html.Action("Logo", "Common")
         </div>
@@ -28,3 +28,4 @@
     </div>
     <div class="desc">Conveniently. Fast. Easily.</div>
 </div>
+<div class="logo-vendor-mob for-mob"><img src="@Model.VendorLogoUrl" /></div>

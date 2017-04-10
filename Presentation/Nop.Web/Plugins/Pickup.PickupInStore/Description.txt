@@ -1,4 +1,4 @@
-﻿Group: Pickup points
+Group: Pickup points
 FriendlyName: Pickup in store
 SystemName: Pickup.PickupInStore
 Version: 1.0

@@ -14,6 +14,11 @@
                                  <img src="@vendor.PictureModel.ImageUrl" alt="@vendor.PictureModel.AlternateText" title="@vendor.PictureModel.Title"/>
                              </a>
                          </div>
+                         <h2 class="title">
+                             <a href="/vendor" title="">
+                                 Vendor Title
+                             </a>
+                         </h2>
                      </div>
                  </div>
              }
@@ -40,12 +45,24 @@
     else
     {
     <script type="text/javascript">
-    $('.vendorslider').slick({
-        slidesToShow: 6,
-        slidesToScroll: 1,
-        autoplay: false,
-        autoplaySpeed: 3000
-    });
+    function windowSize() {
+        if ($(window).width() <= '750') {
+            $('.vendorslider').slick({
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                autoplay: false,
+                autoplaySpeed: 3000
+            });
+        } else {
+            $('.vendorslider').slick({
+                slidesToShow: 6,
+                slidesToScroll: 1,
+                autoplay: false,
+                autoplaySpeed: 3000
+            });;
+        }
+    }
+    $(window).on('load resize', windowSize);
     </script>
     }
 }

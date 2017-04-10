@@ -1,6 +1,6 @@
 ﻿@model VendorModel
 @{
-    @*Layout = "~/Views/Shared/_ColumnsTwo.cshtml";*@
+    Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
 
     //title
     Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
@@ -65,9 +65,9 @@
                 <div class="vendor-box-line pr"></div>
                 </div>
                 <div class="clear"></div>
-                <div class="vendor-icon">
-                @Html.Action("CategoryNavigation", "Catalog", new { currentCategoryId = currentCategoryId, currentProductId = currentProductId })
-                </div>
+                @*<div class="vendor-icon">
+    @Html.Action("CategoryNavigation", "Catalog", new { currentCategoryId = currentCategoryId, currentProductId = currentProductId })
+    </div>*@
                 <div class="logo-vendor-page">
                     <div class="vendor-thanks">
                         Thank you,<br />

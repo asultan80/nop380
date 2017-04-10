@@ -1,6 +1,9 @@
 ﻿@model HeaderLinksModel
 @using Nop.Web.Models.Common;
 <div class="header-links">
+    <div class="mob-menu for-mob">
+        <div class="mob-line"></div>
+    </div>
     <ul>
         @Html.Widget("header_links_before")
         @if (Model.IsAuthenticated)
@@ -57,6 +60,10 @@
     {
         <script type="text/javascript">
             $(document).ready(function () {
+                $('.mob-line').click(function () {
+                    $(this).toggleClass("close-mob");
+                    $('.header-links ul').toggleClass("mob-menu-view");
+                });
                 $('.header').on('mouseenter', '#topcartlink', function () {
                     $('#flyout-cart').addClass('active');
                 });

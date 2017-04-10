@@ -2448,7 +2448,7 @@ namespace Nop.Web.Controllers
                             //calculate discounted and taxed rate
                             List<Discount> appliedDiscounts = null;
                             decimal shippingTotal = _orderTotalCalculationService.AdjustShippingRate(shippingOption.Rate,
-                                cart, out appliedDiscounts);
+                                cart, out appliedDiscounts, address);
 
                             decimal rateBase = _taxService.GetShippingPrice(shippingTotal, _workContext.CurrentCustomer);
                             decimal rate = _currencyService.ConvertFromPrimaryStoreCurrency(rateBase, _workContext.WorkingCurrency);

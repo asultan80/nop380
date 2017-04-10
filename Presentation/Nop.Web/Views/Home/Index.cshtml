@@ -33,35 +33,88 @@
 }
 @using Nop.Web.Models.Catalog;
 <div class="page vendor-list-page">
-    <div class="header-girl"></div>
     <div class="page-body">
         <div class="vendor-grid">
             <div class="item-grid">
-                @foreach (var item in Model)
-                {
-                    <div class="item-box">
-                        <div class="vendor-item">
-                            <h2 class="title">
-                                <a href="@Url.RouteUrl("Vendor", new { SeName = item.SeName })" title="@item.PictureModel.Title">
-                                    @item.Name
-                                </a>
-                            </h2>
-                            <div class="picture">
-                                <a href="@Url.RouteUrl("Vendor", new { SeName = item.SeName })" title="@item.PictureModel.Title">
-                                    <img alt="@item.PictureModel.AlternateText" src="@item.PictureModel.ImageUrl" title="@item.PictureModel.Title" />
-                                </a>
+                <span class="vendor-select">Select Shop</span>
+                <div class="vendor-min">
+                    @foreach (var item in Model)
+                    {
+                        <div class="item-box">
+                            <div class="vendor-item">
+                                <div class="picture">
+                                    <a href="@Url.RouteUrl("Vendor", new { SeName = item.SeName })" title="@item.PictureModel.Title">
+                                        <img alt="@item.PictureModel.AlternateText" src="@item.PictureModel.ImageUrl" title="@item.PictureModel.Title" />
+                                    </a>
+                                </div>
+                                <h2 class="title">
+                                    <a href="@Url.RouteUrl("Vendor", new { SeName = item.SeName })" title="@item.PictureModel.Title">
+                                        @item.Name
+                                    </a>
+                                </h2>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
+                <span class="vendor-more">Show more</span>
             </div>
         </div>
+        <script>
+            $('.vendor-more').click(function () {
+                $('.vendor-min').toggleClass('vendor-max');
+                $(this).toggleClass('down');
+            })
+        </script>
+<script>
+
+    function windowSize() {
+        if ($(window).width() <= '750') {
+            $(".vendor-min").each(function () {
+                if ($(this).find('.item-box').length < 2) {
+                    $(this).addClass("height-vendor-1");
+                    $(".vendor-more").addClass("display-none");
+                }
+                else if ($(this).find('.item-box').length < 3) {
+                    $(this).addClass("height-vendor-2");
+                    $(".vendor-more").addClass("display-none");
+                }
+                else if ($(this).find('.item-box').length >= 3) {
+                    $(this).addClass("height-vendor-8");
+                    $(".vendor-more").addClass("display-block");
+                }
+
+            })
+        }
+        else {
+            $(".vendor-min").each(function () {
+                if ($(this).find('.item-box').length <= 4) {
+                    $(this).addClass("height-vendor-4");
+                    $(".vendor-more").addClass("display-none");
+                }
+                else if ($(this).find('.item-box').length > 4 && $(this).find('.item-box').length < 9) {
+                    $(this).addClass("height-vendor-8");
+                    $(".vendor-more").addClass("display-none");
+                }
+                else if ($(this).find('.item-box').length > 9) {
+                    $(this).addClass("height-vendor-8");
+                    $(".vendor-more").addClass("display-block");
+                }
+
+            })
+        }
+    }
+    $(window).on('load resize', windowSize);
+</script>
         <div class="banner">
-            <div class="banner-link green"><span class="green-text">When shopping for 3000</span> <span class="green-gift">package as a gift!!!!</span></div>
-            <div class="banner-link yellow"><span class="yellow-text">Put like and you</span> <span class="yellow-win">win !!!</span></div>
-            <div class="banner-link red"><span class="red-text">3 each delivery - </span> <span class="red-free">free of charge!</span></div>
+            <div class="banner-ten">
+                <div class="banner-link green"><span class="green-text">When shopping for 3000</span> <span class="green-gift">package as a gift!!!!</span></div>
+            </div>
+            <div class="banner-ten">
+                <div class="banner-link yellow"><span class="yellow-text">Put like and you</span> <span class="yellow-win">win !!!</span></div>
+            </div>
+            <div class="banner-ten">
+                <div class="banner-link red"><span class="red-text">3 each delivery - </span> <span class="red-free">free of charge!</span></div>
+            </div>
             <div class="clear"></div>
             <div class="banner-sale red">your ads can be here</div>
-        </div>
-    </div>
 </div>

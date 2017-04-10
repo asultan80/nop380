@@ -45,11 +45,13 @@
                 <div class="inputs">
                     @Html.LabelFor(model => model.StateProvinceId, new { }, ":")
                     @Html.DropDownListFor(model => model.StateProvinceId, Model.AvailableStates, new { @class = "state-input" })
+                    <span class="required">*</span>
                     <span id="estimate-shipping-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
                 </div>
                 <div class="inputs">
                     @Html.LabelFor(model => model.ZipPostalCode, new { }, ":")
                     @Html.TextBoxFor(model => model.ZipPostalCode, new { @class = "zip-input" })
+                    <span class="required">*</span>
                 </div>
                 <div class="buttons">
                     <input id="estimate-shipping-button" type="button" value="@T("ShoppingCart.EstimateShipping.Button")" class="button-2 estimate-shipping-button" />
@@ -63,6 +65,15 @@
     $(document).ready(function () {
         $('#estimate-shipping-button').click(function() {
             displayAjaxLoading(true);
+
+            // validate required fields
+            if ($("#CountryId").val() === "0" || $("#ZipPostalCode").val() === "")
+            {
+                displayAjaxLoading();
+                alert('All Destination Address fields are required');                
+                return;
+            }
+
             $.ajax({
                 cache: false,
                 type: "POST",

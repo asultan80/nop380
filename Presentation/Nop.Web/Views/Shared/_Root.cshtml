@@ -15,12 +15,12 @@
         AjaxCart.init(false, '.header-links .cart-qty', '.header-links .wishlist-qty', '#flyout-cart');
     </script>
 
-    @*@if (!Convert.ToBoolean(ViewBag.HideMenu) && SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR) != null)
+    @if (!Convert.ToBoolean(ViewBag.HideMenu) && SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR) != null)
     {
     <div class="header-menu">
         @Html.Action("TopMenu", "Catalog")
     </div>
-    }*@
+    }
 
     <div class="master-wrapper-content">
         @Html.Widget("content_before")

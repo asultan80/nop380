@@ -14,6 +14,7 @@ using Nop.Core.Domain.Tax;
 using Nop.Core.Plugins;
 using Nop.Services.Catalog;
 using Nop.Services.Common;
+using Nop.Services.Customers;
 using Nop.Services.Directory;
 using Nop.Services.Discounts;
 using Nop.Services.Events;
@@ -65,6 +66,7 @@ namespace Nop.Services.Tests.Orders
         private CustomerSettings _customerSettings;
         private AddressSettings _addressSettings;
         private IRewardPointService _rewardPointService;
+        private ICustomerService _customerService;
 
         [SetUp]
         public new void SetUp()
@@ -124,11 +126,11 @@ namespace Nop.Services.Tests.Orders
                 _shoppingCartSettings,
                 cacheManager);
             
-
+            _customerService = MockRepository.GenerateMock<ICustomerService>();
             _paymentService = MockRepository.GenerateMock<IPaymentService>();
             _checkoutAttributeParser = MockRepository.GenerateMock<ICheckoutAttributeParser>();
             _giftCardService = MockRepository.GenerateMock<IGiftCardService>();
-            _genericAttributeService = MockRepository.GenerateMock<IGenericAttributeService>();
+            _genericAttributeService = MockRepository.GenerateMock<IGenericAttributeService>();            
 
             _eventPublisher = MockRepository.GenerateMock<IEventPublisher>();
             _eventPublisher.Expect(x => x.Publish(Arg<object>.Is.Anything));
@@ -155,7 +157,7 @@ namespace Nop.Services.Tests.Orders
                 _priceCalcService, _taxService, _shippingService, _paymentService,
                 _checkoutAttributeParser, _discountService, _giftCardService, _genericAttributeService,
                 _rewardPointService, _taxSettings, _rewardPointsSettings,
-                _shippingSettings, _shoppingCartSettings, _catalogSettings);
+                _shippingSettings, _shoppingCartSettings, _catalogSettings, _customerService);
         }
 
         [Test]
