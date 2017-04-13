@@ -96,6 +96,7 @@
     <Compile Include="Caching\RedisCacheManager.cs" />
     <Compile Include="ComponentModel\GenericDictionaryTypeConverter.cs" />
     <Compile Include="ComponentModel\WriteLockDisposable.cs" />
+    <Compile Include="CurrentDestinationPrice.cs" />
     <Compile Include="Domain\Catalog\ProductEditorSettings.cs" />
     <Compile Include="Domain\Catalog\Events.cs" />
     <Compile Include="Domain\Catalog\PredefinedProductAttributeValue.cs" />
@@ -357,8 +358,9 @@
     <Compile Include="Domain\Catalog\TierPrice.cs" />
     <Compile Include="Domain\Customers\PasswordFormat.cs" />
     <Compile Include="NopVersion.cs" />
-    <Compile Include="SessionKeyNames.cs" />
+    <Compile Include="ContextKeyNames.cs" />
     <Compile Include="SessionWrapper.cs" />
+    <Compile Include="SiteContext.cs" />
     <Compile Include="VendorLite.cs" />
     <Compile Include="WebHelper.cs" />
     <Compile Include="Domain\Customers\Customer.cs" />

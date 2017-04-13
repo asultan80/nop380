@@ -62,7 +62,7 @@ namespace Nop.Web.Controllers
         public ActionResult Index()
         {
             //return View();
-            SessionWrapper.RemoveObject(SessionKeyNames.CURRENT_VENDOR);
+            SiteContext.RemoveProperty(ContextKeyNames.CurrentVendor);
             var model = new List<VendorModel>();
             var vendors = _vendorService.GetAllVendors();
             foreach (var vendor in vendors)

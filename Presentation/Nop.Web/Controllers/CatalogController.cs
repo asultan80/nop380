@@ -392,7 +392,7 @@ namespace Nop.Web.Controllers
                         //include subcategories
                         if (_catalogSettings.ShowCategoryProductNumberIncludingSubcategories)
                             categoryIds.AddRange(GetChildCategoryIds(category.Id));
-                        return _productService.GetNumberOfProductsInCategory(VendorLite.GetVendorIdFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR)), categoryIds, _storeContext.CurrentStore.Id);
+                        return _productService.GetNumberOfProductsInCategory(VendorLite.GetVendorIdFromContext(SiteContext.CurrentVendor), categoryIds, _storeContext.CurrentStore.Id);
                     });
                 }
 
@@ -462,7 +462,7 @@ namespace Nop.Web.Controllers
             if (!_storeMappingService.Authorize(category))
                 return InvokeHttp404();
 
-            SessionWrapper.SetObject(SessionKeyNames.CURRENT_VENDOR, new VendorLite { Id = vendorId, Name = RouteData.Values["VendorName"].ToString() });
+            SiteContext.CurrentVendor = new VendorLite { Id = vendorId, Name = RouteData.Values["VendorName"].ToString() };
             ViewBag.ShowSearch = true;
 
             //'Continue shopping' URL
@@ -1011,7 +1011,7 @@ namespace Nop.Web.Controllers
             if (!vendor.Active)
                 return InvokeHttp404();
 
-            SessionWrapper.SetObject(SessionKeyNames.CURRENT_VENDOR, new VendorLite { Id = vendorId, Name = RouteData.Values["VendorName"].ToString() });
+            SiteContext.CurrentVendor = new VendorLite {Id = vendorId, Name = RouteData.Values["VendorName"].ToString()};
             ViewBag.ShowSearch = true;
 
             //'Continue shopping' URL

@@ -7262,6 +7262,7 @@ pre {
 .cart-footer .totals {
 	width: 18rem;
 	margin: 0;
+    float: right;
 }
 .cart-footer .cart-collaterals {
 	width: 38rem;
@@ -7270,20 +7271,26 @@ pre {
 .cart-footer .cart-collaterals .deals {
 	float: left;
 	width: 18rem;
+    margin: 0;
 }
 .cart-footer .cart-collaterals .shipping {
-	float: right;
+	float: left;
 	width: 18rem;
 }
 .cart-footer .estimate-shipping .inputs label {
 	display: inline-block;
-	/* width: 35%; */
+    text-align: left;
+    width: 8.0rem;
 }
 .cart-footer .estimate-shipping .inputs input,
 .cart-footer .estimate-shipping .inputs select {
 	width: 65%;
 }
-
+.cart-footer .cart-footer-inner {
+    display: table;
+    margin: 0 auto;
+    width: 40rem;
+}
 
 /*** CHECKOUT ***/
 

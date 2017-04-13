@@ -12,7 +12,7 @@ namespace Nop.Web.Models.Checkout
         {
             get
             {
-                return VendorLite.GetVendorNameFromSession(SessionWrapper.GetObject(SessionKeyNames.CURRENT_VENDOR));
+                return VendorLite.GetVendorNameFromContext(SiteContext.CurrentVendor);
             }
         }
     }

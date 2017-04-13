@@ -11,22 +11,22 @@ namespace Nop.Core
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public static string GetVendorNameFromSession(object sessionObj)
+        public static string GetVendorNameFromContext(object obj)
         {
-            if (sessionObj == null)
+            if (obj == null)
             {
                 return string.Empty;
             }
-            return (sessionObj as VendorLite).Name;
+            return (obj as VendorLite).Name;
         }
 
-        public static int GetVendorIdFromSession(object sessionObj)
+        public static int GetVendorIdFromContext(object obj)
         {
-            if (sessionObj == null)
+            if (obj == null)
             {
                 return -1;
             }
-            return (sessionObj as VendorLite).Id;
+            return (obj as VendorLite).Id;
         }
     }
 }

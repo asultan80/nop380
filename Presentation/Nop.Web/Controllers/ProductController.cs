@@ -946,7 +946,7 @@ namespace Nop.Web.Controllers
             if (vendorId != product.VendorId)
                 return InvokeHttp404();
 
-            SessionWrapper.SetObject(SessionKeyNames.CURRENT_VENDOR, new VendorLite { Id = vendorId, Name = RouteData.Values["VendorName"].ToString() });
+            SiteContext.CurrentVendor = new VendorLite { Id = vendorId, Name = RouteData.Values["VendorName"].ToString() };
             ViewBag.ShowSearch = true;
 
             //published?

@@ -1471,19 +1471,42 @@ namespace Nop.Services.Orders
 
         #region Adjust Shipping By Google Maps Destination
 
-        public virtual decimal AdjustShippingRateByDestination(IList<ShoppingCartItem> cart, decimal rate, Address address = null)
+        public virtual decimal AdjustShippingRateByDestination(IList<ShoppingCartItem> cart, decimal rate,
+            Address address = null)
         {
             var customerAddress = address == null ? GetFormatedAddress(cart.GetCustomer().ShippingAddress) : GetFormatedAddress(address);
-            var vendorsAddresses = GetVendorsAddressesList(cart);
-            var distance = GetDistance(customerAddress, vendorsAddresses);
+            var vendorsAddresses = GetVendorsAddresses(cart);
+            var vendorsList = vendorsAddresses.Keys.ToList();
+
+            CurrentDestinationPrice destinationPrice = SiteContext.CurrentDestinationPriceAdjustment;
+
+            if (destinationPrice != null && destinationPrice.UserAddress == customerAddress &&
+                HelpUtils.ScrambledEquals(destinationPrice.Vendors, vendorsList))
+            {
+                return rate + destinationPrice.Price;
+            }
+
+            var vendorsAddressesList = vendorsAddresses.Values.ToList();
+            var distance = GetDistance(customerAddress, vendorsAddressesList);
 
             // calculate rate
+            destinationPrice = new CurrentDestinationPrice() {UserAddress = customerAddress, Vendors = vendorsList};
             if (distance <= 5)
-                return rate;
-            if (distance <= 15)
-                return rate + 3;
-            var calculatedRate = rate + 3 + (distance - 15)*(decimal) 0.5;
-            return Math.Round(calculatedRate, 2);
+            {
+                destinationPrice.Price = 0;
+            }
+            else if (distance <= 15)
+            {
+                destinationPrice.Price = 3;
+            }
+            else
+            {
+                var calculatedRate = 3 + (distance - 15) * (decimal)0.5;
+                destinationPrice.Price = Math.Round(calculatedRate, 2);
+            }
+            SiteContext.CurrentDestinationPriceAdjustment = destinationPrice;
+
+            return rate + destinationPrice.Price;
         }
 
         public decimal GetDistance(string origin, List<string> addresses)
@@ -1527,7 +1550,7 @@ namespace Nop.Services.Orders
             
         }
 
-        private List<string> GetVendorsAddressesList(IList<ShoppingCartItem> cart)
+        private Dictionary<int, string> GetVendorsAddresses(IList<ShoppingCartItem> cart)
         {
             var vendorsDict = new Dictionary<int, string>();
             foreach (var item in cart)
@@ -1538,7 +1561,7 @@ namespace Nop.Services.Orders
                 }
 
             }
-            return vendorsDict.Values.ToList();
+            return vendorsDict;
         }
 
         private string GetVendorAddress(int vendorId)
@@ -1556,9 +1579,6 @@ namespace Nop.Services.Orders
         private string GetFormatedAddress(Address address)
         {
             var addressParts = new List<string>();
-            addressParts.Add(address.Address1);
-            addressParts.Add(address.Address2);
-            addressParts.Add(address.City);
             addressParts.Add(address.ZipPostalCode);
             if (address.StateProvince != null)
                 addressParts.Add(address.StateProvince.Name);
