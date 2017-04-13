@@ -10,12 +10,11 @@
             @Html.Widget("header_selectors")
         </div>
         <div class="header-links-wrapper">
-            @Html.Action("HeaderLinks", "Common")
-            @Html.Action("FlyoutShoppingCart", "ShoppingCart")
+            @Html.Action("HeaderLinks", "Common")            
         </div>
     </div>
     <div class="header-lower">
-        <div class="logo-vendor"><img src="@Model.VendorLogoUrl" /><div class="vendor-title">Title</div></div>
+        <div class="logo-vendor"><img src="@Model.VendorLogoUrl" /><div class="vendor-title">@Model.VendorName</div></div>
         <div class="header-logo">
             @Html.Action("Logo", "Common")
         </div>

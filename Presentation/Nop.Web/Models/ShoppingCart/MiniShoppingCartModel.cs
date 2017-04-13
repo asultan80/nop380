@@ -22,6 +22,11 @@ namespace Nop.Web.Models.ShoppingCart
         public bool AnonymousCheckoutAllowed { get; set; }
         public bool ShowProductImages { get; set; }
 
+        public int MaxCartItems
+        {
+            get { return 5; }
+        }
+
 
         #region Nested Classes
 

@@ -54,6 +54,7 @@
                 <span class="cart-img"></span>
                 <span class="cart-qty">@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)</span>
             </a>
+            <div class="mini-shopping-cart-wrapper">@Html.Action("FlyoutShoppingCart", "ShoppingCart")</div>
         </div>
     }
     @if (Model.ShoppingCartEnabled)

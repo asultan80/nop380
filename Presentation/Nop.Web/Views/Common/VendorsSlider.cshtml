@@ -3,26 +3,24 @@
 
 <div class="vendor-grid vendor-slider">
     <div class="item-grid vendorslider">
-        @for (var i = 0; i < 10; i++)
+
+    @foreach (var vendor in Model.VendorsList)
         {
-            foreach (var vendor in Model.VendorsList)
-             {
-                 <div class="item-box">
-                     <div class="vendor-item">
-                         <div class="picture">
-                             <a href="@Url.RouteUrl("Vendor", new {SeName = vendor.SeName})">
-                                 <img src="@vendor.PictureModel.ImageUrl" alt="@vendor.PictureModel.AlternateText" title="@vendor.PictureModel.Title"/>
-                             </a>
-                         </div>
-                         <h2 class="title">
-                             <a href="/vendor" title="">
-                                 Vendor Title
-                             </a>
-                         </h2>
-                     </div>
-                 </div>
-             }
-        }
+            <div class="item-box">
+                <div class="vendor-item">
+                    <div class="picture">
+                        <a href="@Url.RouteUrl("Vendor", new {SeName = vendor.SeName})">
+                            <img src="@vendor.PictureModel.ImageUrl" alt="@vendor.PictureModel.AlternateText" title="@vendor.PictureModel.Title"/>
+                        </a>
+                    </div>
+                    <h2 class="title">
+                        <a href="@Url.RouteUrl("Vendor", new {SeName = vendor.SeName})" title="@vendor.Name">
+                            @vendor.Name
+                        </a>
+                    </h2>
+                </div>
+            </div>
+        }        
     </div>
 </div>
 

@@ -472,15 +472,17 @@ namespace Nop.Web.Controllers
         [ChildActionOnly]
         public ActionResult Header()
         {
-            string vendorLogoUrl = string.Empty;
+            var vendorLogoUrl = string.Empty;
+            var vendorName = string.Empty;
             var vendor = _vendorService.GetVendorById(HelpUtils.CurrentVendorId);
             if (vendor != null)
             {
                 var picture = _pictureService.GetPictureById(vendor.PictureId);
                 vendorLogoUrl = _pictureService.GetPictureUrl(picture, _mediaSettings.VendorThumbPictureSize);
+                vendorName = vendor.Name;
             }
 
-            return PartialView(new HeaderModel { VendorLogoUrl = vendorLogoUrl });
+            return PartialView(new HeaderModel { VendorLogoUrl = vendorLogoUrl, VendorName = vendorName});
         }
 
 
